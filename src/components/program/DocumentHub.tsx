@@ -24,18 +24,22 @@ type CategoryGroup = {
     years: string[];
 };
 
-export function DocumentHub() {
+type DocumentHubProps = {
+    initialCategory?: string;
+};
+
+export function DocumentHub({ initialCategory }: DocumentHubProps) {
     const [documents, setDocuments] = useState<ProgramDocument[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
 
     // Filter State
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory ?? null);
     const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
     // Sidebar Data State
     const [categories, setCategories] = useState<CategoryGroup[]>([]);
-    const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+    const [expandedCategories, setExpandedCategories] = useState<string[]>(initialCategory ? [initialCategory] : []);
 
     useEffect(() => {
         fetchDocuments();
@@ -78,8 +82,8 @@ export function DocumentHub() {
 
         setCategories(groups);
 
-        // Expand all by default or first one
-        if (groups.length > 0) {
+        // If no initialCategory, expand all by default
+        if (!initialCategory && groups.length > 0) {
             setExpandedCategories(groups.map(g => g.name));
         }
     };
