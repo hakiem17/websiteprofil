@@ -34,6 +34,12 @@ export function Header() {
     // We do NOT return early here to ensure hooks are always called (React Rule of Hooks)
     const isAdmin = pathname?.startsWith("/admin");
 
+    // Reset scroll state when route changes
+    useEffect(() => {
+        if (isAdmin) return;
+        setScrolled(window.scrollY > 10);
+    }, [pathname, isAdmin]);
+
     useEffect(() => {
         // Don't run effects on admin pages
         if (isAdmin) return;
@@ -41,6 +47,8 @@ export function Header() {
         const handleScroll = () => {
             setScrolled(window.scrollY > 10);
         };
+        // Check current scroll position immediately on mount
+        handleScroll();
         window.addEventListener("scroll", handleScroll);
 
         const fetchData = async () => {
@@ -109,10 +117,9 @@ export function Header() {
     return (
         <header
             className={cn(
-                "fixed top-0 w-full z-50 transition-all duration-300",
-                scrolled
-                    ? "bg-white/95 dark:bg-slate-950/95 backdrop-blur-md shadow-sm border-b border-gray-100 dark:border-slate-800"
-                    : "bg-transparent"
+                "fixed top-0 w-full z-50 transition-shadow duration-300",
+                "bg-white dark:bg-slate-950",
+                scrolled && "shadow-md"
             )}
         >
             {/* Top Bar */}
@@ -152,16 +159,10 @@ export function Header() {
                             </div>
                         )}
                         <div className="flex flex-col">
-                            <span className={cn(
-                                "font-bold text-lg leading-tight transition-colors line-clamp-1",
-                                scrolled ? "text-foreground" : "text-white"
-                            )}>
+                            <span className="font-bold text-lg leading-tight text-slate-900 dark:text-white">
                                 {siteSettings.site_name}
                             </span>
-                            <span className={cn(
-                                "text-xs font-medium transition-colors",
-                                scrolled ? "text-muted-foreground" : "text-white/80"
-                            )}>
+                            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
                                 {siteSettings.description || "Website Resmi"}
                             </span>
                         </div>
@@ -176,12 +177,7 @@ export function Header() {
                                 onMouseEnter={() => setActiveDropdown(section.title)}
                                 onMouseLeave={() => setActiveDropdown(null)}
                             >
-                                <div className={cn(
-                                    "flex items-center gap-1 text-sm font-medium py-2 cursor-pointer transition-colors",
-                                    scrolled
-                                        ? "text-foreground hover:text-primary"
-                                        : "text-white/90 hover:text-white"
-                                )}>
+                                <div className="flex items-center gap-1 text-sm font-medium py-2 cursor-pointer transition-colors text-slate-700 dark:text-slate-200 hover:text-primary">
                                     {section.children && section.children.length > 0 ? (
                                         <>
                                             {section.title}
@@ -219,12 +215,7 @@ export function Header() {
 
                     {/* Desktop Actions */}
                     <div className="hidden md:flex items-center gap-4">
-                        <div className={cn(
-                            "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-colors",
-                            scrolled
-                                ? "border-slate-200 dark:border-slate-700 text-muted-foreground"
-                                : "border-slate-200/50 text-foreground/80 dark:text-white/80 bg-white/50 dark:bg-black/20 backdrop-blur-sm"
-                        )}>
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
                             <Globe className="h-4 w-4" />
                             <span className="text-xs font-medium">ID</span>
                         </div>
@@ -234,21 +225,13 @@ export function Header() {
                             <ThemeToggle />
                         </div>
 
-                        <button className={cn(
-                            "p-2 rounded-full transition-colors hover:bg-black/5 dark:hover:bg-white/10",
-                            scrolled ? "text-foreground" : "text-white"
-                        )}>
+                        <button className="p-2 rounded-full transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
                             <Search className="h-5 w-5" />
                         </button>
 
                         <Link
                             href="/login"
-                            className={cn(
-                                "flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all shadow-sm hover:shadow-md",
-                                scrolled
-                                    ? "bg-primary text-white hover:bg-primary/90"
-                                    : "bg-white text-primary hover:bg-gray-100 shadow-md border border-slate-100" // Added background for better visibility on light hero
-                            )}
+                            className="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all shadow-sm hover:shadow-md bg-primary text-white hover:bg-primary/90"
                         >
                             <Lock className="h-4 w-4" />
                             LOGIN ADMIN
@@ -260,7 +243,7 @@ export function Header() {
                         className="md:hidden p-2 text-foreground"
                         onClick={() => setIsOpen(!isOpen)}
                     >
-                        {isOpen ? <X className="h-6 w-6" /> : <Menu className={cn("h-6 w-6", scrolled ? "text-foreground" : "text-foreground dark:text-white")} />}
+                        {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6 text-foreground" />}
                     </button>
                 </div>
             </div>
