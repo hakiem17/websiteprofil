@@ -114,6 +114,8 @@ Karakteristik Desain:
 •	Warna identitas daerah dipadukan dengan ruang kosong (whitespace) yang cukup.
 •	Tipografi sans-serif modern untuk keterbacaan maksimal.
 •	Tampilan responsif di perangkat desktop, tablet, dan ponsel.
+•	Desain yang mudah diakses oleh penyandang disabilitas.
+•	Darkmode dan light mode untuk semua element
 
 2.5 Analisis Risiko
 Risiko	Dampak	Mitigasi

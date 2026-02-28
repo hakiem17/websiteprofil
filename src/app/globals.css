@@ -1,26 +1,178 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
+@theme {
+  --font-sans: var(--font-inter);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-border: var(--border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* Light Mode - Clean Governance */
+  --background: #F8FAFC;
+  /* Slate 50 */
+  --foreground: #0F172A;
+  /* Slate 900 */
+
+  --primary: #1E40AF;
+  /* Blue 800 */
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #D97706;
+  /* Amber 600 */
+  --secondary-foreground: #FFFFFF;
+
+  --muted: #F1F5F9;
+  /* Slate 100 */
+  --muted-foreground: #64748B;
+  /* Slate 500 */
+
+  --border: #E2E8F0;
+  /* Slate 200 */
+
+  --font-inter: "Inter", sans-serif;
+}
+
+.dark {
+  /* Dark Mode */
+  --background: #020617;
+  /* Slate 950 */
+  --foreground: #F8FAFC;
+  /* Slate 50 */
+
+  --card: #1E293B;
+  /* Slate 800 */
+  --card-foreground: #F8FAFC;
+  /* Slate 50 */
+
+  --primary: #3B82F6;
+  /* Blue 500 */
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #F59E0B;
+  /* Amber 500 */
+  --secondary-foreground: #000000;
+
+  --muted: #0F172A;
+  /* Slate 900 */
+  --muted-foreground: #CBD5E1;
+  /* Slate 300 */
+
+  --border: #1E293B;
+  /* Slate 800 */
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ===== Accessibility Styles ===== */
+
+/* Highlight Titles */
+.a11y-highlight-titles h1,
+.a11y-highlight-titles h2,
+.a11y-highlight-titles h3,
+.a11y-highlight-titles h4,
+.a11y-highlight-titles h5,
+.a11y-highlight-titles h6 {
+  outline: 3px solid #06b6d4 !important;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Highlight Links */
+.a11y-highlight-links a {
+  outline: 2px solid #f59e0b !important;
+  outline-offset: 2px;
+  text-decoration: underline !important;
+  border-radius: 2px;
+}
+
+/* Dyslexia-Friendly Font */
+.a11y-dyslexia-font * {
+  font-family: 'OpenDyslexic', sans-serif !important;
+}
+
+/* Letter Spacing */
+.a11y-letter-spacing * {
+  letter-spacing: 0.12em !important;
+}
+
+/* Increased Line Height */
+.a11y-line-height * {
+  line-height: 2 !important;
+}
+
+/* Bolder Font Weight */
+.a11y-font-weight * {
+  font-weight: 700 !important;
+}
+
+/* High Contrast */
+.a11y-contrast-high {
+  filter: contrast(1.75) !important;
+}
+
+/* Saturation High */
+.a11y-saturate-high {
+  filter: saturate(2) !important;
+}
+
+/* Saturation Low */
+.a11y-saturate-low {
+  filter: saturate(0.3) !important;
+}
+
+/* Monochrome */
+.a11y-monochrome {
+  filter: grayscale(1) !important;
+}
+
+/* Hide Images */
+.a11y-hide-images img,
+.a11y-hide-images svg:not([class*="lucide"]),
+.a11y-hide-images video,
+.a11y-hide-images [style*="background-image"] {
+  visibility: hidden !important;
+}
+
+/* Stop Animations */
+.a11y-stop-animations *,
+.a11y-stop-animations *::before,
+.a11y-stop-animations *::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+/* Large Cursor */
+.a11y-large-cursor,
+.a11y-large-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' stroke='%23fff' stroke-width='1' d='M5.5 3.21V20.8l4.86-4.86h7.36L5.5 3.21z'/%3E%3C/svg%3E") 0 0, auto !important;
 }
