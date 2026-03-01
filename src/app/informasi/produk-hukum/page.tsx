@@ -1,13 +1,15 @@
 import { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Scale, Download, Search } from "lucide-react";
+import { getInformasiPage } from "@/lib/informasi-service";
 
 export const metadata: Metadata = {
     title: "Produk Hukum",
     description: "Produk hukum dan peraturan Pemerintah Daerah.",
 };
 
-export default function ProdukHukumPage() {
+export default async function ProdukHukumPage() {
+    const page = await getInformasiPage("produk-hukum");
     const produkHukum = [
         { jenis: "Peraturan Daerah", nomor: "No. 3 Tahun 2024", judul: "Penyelenggaraan Komunikasi dan Informatika", tahun: "2024" },
         { jenis: "Peraturan Gubernur", nomor: "No. 15 Tahun 2023", judul: "Tata Kelola Teknologi Informasi dan Komunikasi", tahun: "2023" },

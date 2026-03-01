@@ -5,13 +5,15 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface MenuFormProps {
     initialData?: any;
+    initialParentId?: string;
     isEdit?: boolean;
 }
 
-export default function MenuForm({ initialData, isEdit = false }: MenuFormProps) {
+export default function MenuForm({ initialData, initialParentId, isEdit = false }: MenuFormProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [parents, setParents] = useState<any[]>([]);
@@ -19,7 +21,7 @@ export default function MenuForm({ initialData, isEdit = false }: MenuFormProps)
     const [formData, setFormData] = useState({
         title: "",
         href: "",
-        parent_id: "",
+        parent_id: initialParentId || "",
         order: 0,
         is_active: true,
     });
@@ -58,6 +60,7 @@ export default function MenuForm({ initialData, isEdit = false }: MenuFormProps)
         e.preventDefault();
         setLoading(true);
 
+        const toastId = toast.loading(isEdit ? "Menyimpan perubahan..." : "Menambahkan menu...");
         try {
             const payload = {
                 ...formData,
@@ -77,11 +80,12 @@ export default function MenuForm({ initialData, isEdit = false }: MenuFormProps)
                 if (error) throw error;
             }
 
+            toast.success(isEdit ? "Menu berhasil diperbarui." : "Menu berhasil ditambahkan.", { id: toastId });
             router.push("/admin/menus");
             router.refresh();
         } catch (error: any) {
             console.error("Error saving menu:", error);
-            alert("Gagal menyimpan menu: " + error.message);
+            toast.error("Gagal menyimpan menu: " + error.message, { id: toastId });
         } finally {
             setLoading(false);
         }

@@ -1,13 +1,15 @@
 import { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { ShoppingCart, ExternalLink, FileText } from "lucide-react";
+import { getInformasiPage } from "@/lib/informasi-service";
 
 export const metadata: Metadata = {
     title: "Pengadaan",
     description: "Informasi pengadaan barang dan jasa Pemerintah Daerah.",
 };
 
-export default function PengadaanPage() {
+export default async function PengadaanPage() {
+    const page = await getInformasiPage("pengadaan");
     const pengadaan = [
         { judul: "Pengadaan Perangkat Jaringan 2026", status: "Proses", deadline: "28 Februari 2026", nilai: "Rp 450.000.000" },
         { judul: "Pengadaan Server dan Storage 2026", status: "Perencanaan", deadline: "15 Maret 2026", nilai: "Rp 1.200.000.000" },
@@ -34,6 +36,14 @@ export default function PengadaanPage() {
 
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-4xl mx-auto space-y-8">
+
+                    {page?.content && (
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
+                            <article className="prose prose-slate dark:prose-invert max-w-none">
+                                <div dangerouslySetInnerHTML={{ __html: page.content }} />
+                            </article>
+                        </div>
+                    )}
 
                     <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
                         <p className="text-slate-600 dark:text-slate-300 leading-relaxed">

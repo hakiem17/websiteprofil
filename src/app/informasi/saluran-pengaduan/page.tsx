@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
+import { getInformasiPage } from "@/lib/informasi-service";
 import { Phone, Mail, MessageSquare, ExternalLink, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
     description: "Saluran pengaduan masyarakat ke Pemerintah Daerah.",
 };
 
-export default function SaluranPengaduanPage() {
+export default async function SaluranPengaduanPage() {
+    const page = await getInformasiPage("saluran-pengaduan");
+
     const saluran = [
         { icon: Phone, judul: "Telepon", detail: "(0274) 555123", deskripsi: "Senin - Jumat, 08.00 - 16.00 WIB" },
         { icon: Mail, judul: "Email", detail: "pengaduan@diskominfo.go.id", deskripsi: "Respon maksimal 1x24 jam kerja" },
@@ -18,7 +21,7 @@ export default function SaluranPengaduanPage() {
     return (
         <>
             <PageHero
-                title="Saluran Pengaduan"
+                title={page?.title || "Saluran Pengaduan"}
                 subtitle="Sampaikan pengaduan, aspirasi, atau masukan Anda"
                 breadcrumbs={[
                     { label: "Informasi", href: "/informasi/berita" },
@@ -29,12 +32,13 @@ export default function SaluranPengaduanPage() {
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-4xl mx-auto space-y-8">
 
-                    <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
-                        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-3">Layanan Pengaduan</h2>
-                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                            Kami membuka saluran pengaduan untuk masyarakat yang ingin menyampaikan keluhan, saran, maupun masukan terkait pelayanan publik. Setiap pengaduan akan ditindaklanjuti sesuai prosedur yang berlaku.
-                        </p>
-                    </div>
+                    {page?.content && (
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
+                            <article className="prose prose-slate dark:prose-invert max-w-none">
+                                <div dangerouslySetInnerHTML={{ __html: page.content }} />
+                            </article>
+                        </div>
+                    )}
 
                     <div className="grid md:grid-cols-2 gap-6">
                         {saluran.map((item, index) => {
@@ -42,7 +46,8 @@ export default function SaluranPengaduanPage() {
                             return (
                                 <div key={index} className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow">
                                     <div className="flex items-start gap-4">
-                                        <div className="flex-shrink-0 w-14 h-14 rounded-full bg-linear-to-br from-cyan-100 to-blue-100 dark:from-cyan-900/30 dark:to-blue-900/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400 mb-4 mx-auto md:mx-0 md:mb-0 md:mr-6">                                        <Icon className="h-6 w-6 text-amber-500" />
+                                        <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-900/30 dark:to-blue-900/30 flex items-center justify-center">
+                                            <Icon className="h-6 w-6 text-amber-500" />
                                         </div>
                                         <div>
                                             <h3 className="font-bold text-slate-800 dark:text-white">{item.judul}</h3>

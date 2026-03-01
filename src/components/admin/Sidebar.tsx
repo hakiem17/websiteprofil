@@ -50,6 +50,7 @@ const navigationGroups: NavGroup[] = [
             { name: "Agenda Kegiatan", href: "/admin/agenda", icon: Calendar },
             { name: "Pengumuman", href: "/admin/announcements", icon: Megaphone },
             { name: "Editor Halaman Profil", href: "/admin/profile-pages", icon: Edit },
+            { name: "Editor Halaman Informasi", href: "/admin/informasi-pages", icon: FileText },
         ]
     },
     {

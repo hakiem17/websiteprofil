@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
+import { getInformasiPage } from "@/lib/informasi-service";
 import { Globe, FileText, Shield, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
     description: "Layanan informasi publik dan PPID Pemerintah Daerah.",
 };
 
-export default function LayananInformasiPublikPage() {
+export default async function LayananInformasiPublikPage() {
+    const page = await getInformasiPage("layanan-informasi-publik");
+
     const layanan = [
         {
             judul: "Permohonan Informasi Publik",
@@ -32,7 +35,7 @@ export default function LayananInformasiPublikPage() {
     return (
         <>
             <PageHero
-                title="Layanan Informasi Publik"
+                title={page?.title || "Layanan Informasi Publik"}
                 subtitle="Pejabat Pengelola Informasi dan Dokumentasi (PPID)"
                 breadcrumbs={[
                     { label: "Informasi", href: "/informasi/berita" },
@@ -43,12 +46,20 @@ export default function LayananInformasiPublikPage() {
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-4xl mx-auto space-y-8">
 
-                    <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
-                        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-3">Tentang PPID</h2>
-                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                            Pejabat Pengelola Informasi dan Dokumentasi (PPID) adalah pejabat yang bertanggung jawab di bidang penyimpanan, pendokumentasian, penyediaan, dan/atau pelayanan informasi di badan publik sesuai dengan UU No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik.
-                        </p>
-                    </div>
+                    {page?.content ? (
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
+                            <article className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-cyan-700 dark:prose-headings:text-cyan-400 prose-blockquote:border-l-cyan-500 prose-li:marker:text-cyan-500">
+                                <div dangerouslySetInnerHTML={{ __html: page.content }} />
+                            </article>
+                        </div>
+                    ) : (
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
+                            <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-3">Tentang PPID</h2>
+                            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Pejabat Pengelola Informasi dan Dokumentasi (PPID) adalah pejabat yang bertanggung jawab di bidang penyimpanan, pendokumentasian, penyediaan, dan/atau pelayanan informasi di badan publik sesuai dengan UU No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik.
+                            </p>
+                        </div>
+                    )}
 
                     <div className="grid md:grid-cols-3 gap-6">
                         {layanan.map((item, index) => {
@@ -67,7 +78,6 @@ export default function LayananInformasiPublikPage() {
                             );
                         })}
                     </div>
-
                 </div>
             </div>
         </>
