@@ -91,8 +91,8 @@ export default function GaleriPage() {
                                 key={tab}
                                 onClick={() => setFilter(tab)}
                                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${filter === tab
-                                        ? "bg-cyan-600 text-white shadow-md"
-                                        : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-cyan-50 dark:hover:bg-slate-700"
+                                    ? "bg-cyan-600 text-white shadow-md"
+                                    : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-cyan-50 dark:hover:bg-slate-700"
                                     }`}
                             >
                                 {tab === "Photo" ? "Foto" : tab === "Video" ? "Video" : "Semua"}
@@ -144,7 +144,7 @@ export default function GaleriPage() {
                                     )}
 
                                     {/* Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
                                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-white/20 text-white mb-1.5">
                                             {item.type === "Photo" ? (
@@ -197,7 +197,7 @@ export default function GaleriPage() {
             {/* Lightbox */}
             {lightboxIndex !== null && photoItems[lightboxIndex] && (
                 <div
-                    className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4"
+                    className="fixed inset-0 z-9999 bg-black/90 flex items-center justify-center p-4"
                     onClick={closeLightbox}
                 >
                     {/* Close */}
